@@ -7,6 +7,8 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>taotao-manager-dao</artifactId>
+
+
     <!-- 依赖的jar包 -->
     <dependencies>
         <dependency>

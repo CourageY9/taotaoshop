@@ -8,7 +8,14 @@
     </parent>
     <artifactId>taotao-manager-web</artifactId>
     <packaging>war</packaging>
+
     <dependencies>
+        <!-- 引入interface接口 -->
+        <dependency>
+            <groupId>com.taotao</groupId>
+            <artifactId>taotao-manager-interface</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <!-- JSP相关 -->
         <dependency>
             <groupId>jstl</groupId>
@@ -24,6 +31,7 @@
             <artifactId>jsp-api</artifactId>
             <scope>provided</scope>
         </dependency>
+
         <!-- spring mvc -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -53,5 +61,44 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
         </dependency>
+
+        <!-- 引入dubbo jar包 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>dubbo</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.netty</groupId>
+                    <artifactId>netty</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.sgroschupf</groupId>
+            <artifactId>zkclient</artifactId>
+        </dependency>
+
     </dependencies>
+
+    <!-- tomcat插件 -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <configuration>
+                    <port>8081</port>
+                    <path>/</path>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
