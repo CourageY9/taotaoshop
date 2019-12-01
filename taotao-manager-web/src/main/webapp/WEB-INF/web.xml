@@ -6,9 +6,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <display-name>taotao-manager-web</display-name>
 
-  <!--<welcome-file-list>-->
-    <!--<welcome-file>login.html</welcome-file>-->
-  <!--</welcome-file-list>-->
+  <welcome-file-list>
+    <welcome-file>login.html</welcome-file>
+  </welcome-file-list>
   <!-- 解决post乱码 -->
   <filter>
     <filter-name>CharacterEncodingFilter</filter-name>

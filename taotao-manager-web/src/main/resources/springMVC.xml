@@ -19,10 +19,17 @@
 
     <mvc:annotation-driven />
 
+    <!-- 视图解析器 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/" />
         <property name="suffix" value=".jsp" />
     </bean>
+
+    <!-- 放行静态文件 -->
+    <mvc:resources location="/WEB-INF/js/" mapping="/js/**"/>
+    <mvc:resources location="/WEB-INF/css/" mapping="/css/**"/>
+
+
 
     <!-- dubbo接收信息 -->
     <dubbo:application name="taotao-manager-web" />

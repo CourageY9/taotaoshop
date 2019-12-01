@@ -1,15 +1,14 @@
 package com.taotao.controller;
 
+import com.taotao.common.pojo.EasyUIResult;
 import com.taotao.pojo.TbItem;
 import com.taotao.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
 
 /**
  * Auther: yangyi  <br/>
@@ -35,5 +34,21 @@ public class ItemController {
     public TbItem getItem(@PathVariable long itemId){
         TbItem tbItem = itemService.getItemById(itemId);
         return tbItem;
+    }
+
+    /**
+     * <pre>
+     * Description :  获取所有商品信息  <br/>
+     * ChangeLog : 1. 创建 (2019/12/1 18:57 [yangyi]);
+      * @param page
+     * @param rows
+      * @return com.taotao.common.pojo.EasyUIResult
+     * </pre>
+     */
+    @ResponseBody
+    @RequestMapping("/item/list")
+    public EasyUIResult getAllItem(int page,int rows){
+        EasyUIResult result = itemService.getItemList(page, rows);
+        return result;
     }
 }
