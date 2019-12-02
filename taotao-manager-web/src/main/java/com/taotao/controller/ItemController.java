@@ -1,6 +1,7 @@
 package com.taotao.controller;
 
 import com.taotao.common.pojo.EasyUIResult;
+import com.taotao.common.pojo.TaotaoResult;
 import com.taotao.pojo.TbItem;
 import com.taotao.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,21 @@ public class ItemController {
     @RequestMapping("/item/list")
     public EasyUIResult getAllItem(int page,int rows){
         EasyUIResult result = itemService.getItemList(page, rows);
+        return result;
+    }
+
+    /**
+     * <pre>
+     * Description :  批量删除商品  <br/>
+     * ChangeLog : 1. 创建 (2019/12/2 0:04 [yangyi]);
+      * @param ids
+      * @return com.taotao.common.pojo.TaotaoResult
+     * </pre>
+     */
+    @ResponseBody
+    @RequestMapping("/rest/item/delete")
+    public TaotaoResult deleteItems(Integer[] ids){
+        TaotaoResult result = itemService.deleteItems(ids);
         return result;
     }
 }

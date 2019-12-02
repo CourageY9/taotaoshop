@@ -3,6 +3,7 @@ package com.taotao.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.taotao.common.pojo.EasyUIResult;
+import com.taotao.common.pojo.TaotaoResult;
 import com.taotao.dao.TbItemMapper;
 import com.taotao.pojo.TbItem;
 import com.taotao.service.ItemService;
@@ -59,5 +60,21 @@ public class ItemServiceImpl implements ItemService {
         result.setRows(itemList);
 
         return result;
+    }
+
+    /**
+     * <pre>
+     * Description :  批量删除商品  <br/>
+     * ChangeLog : 1. 创建 (2019/12/2 0:02 [yangyi]);
+      * @param ids     商品ID
+      * @return com.taotao.common.pojo.TaotaoResult
+     * </pre>
+     */
+    public TaotaoResult deleteItems(Integer[] ids){
+        int result = tbItemMapper.deleteItems(ids);
+        if (result != 0){
+            return TaotaoResult.ok();
+        }
+        return null;
     }
 }

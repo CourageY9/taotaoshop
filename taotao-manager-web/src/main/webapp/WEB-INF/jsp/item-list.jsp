@@ -128,7 +128,11 @@
             				$.messager.alert('提示','删除商品成功!',undefined,function(){
             					$("#itemList").datagrid("reload");
             				});
-            			}
+            			}else {
+                            $.messager.alert('提示','删除商品失败!',undefined,function(){
+                                $("#itemList").datagrid("reload");
+                            });
+                        }
             		});
         	    }
         	});
