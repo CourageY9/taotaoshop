@@ -67,4 +67,11 @@ public class ItemController {
         TaotaoResult result = itemService.deleteItems(ids);
         return result;
     }
+    
+    @ResponseBody
+    @RequestMapping("/rest/page/item-edit")
+    public TaotaoResult findItemById(Integer id){
+        System.out.println(id);
+        return null;
+    }
 }

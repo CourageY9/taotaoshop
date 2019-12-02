@@ -20,7 +20,7 @@
         </tr>
     </thead>
 </table>
-<div id="itemEditWindow" class="easyui-window" title="编辑商品" data-options="modal:true,closed:true,iconCls:'icon-save',href:'/rest/page/item-edit'" style="width:80%;height:80%;padding:10px;">
+<div id="itemEditWindow" class="easyui-window" title="编辑商品" data-options="modal:true,closed:true,iconCls:'icon-save',href:'/rest/page/item-edit'" style="width:80%;height:80%;padding:10px;"><!-- ,href:'/rest/page/item-edit' -->
 </div>
 <script>
 
@@ -61,53 +61,72 @@
         	$("#itemEditWindow").window({
         		onLoad :function(){
         			//回显数据
-        			var data = $("#itemList").datagrid("getSelections")[0];
+        			var data = $("#itemList").datagrid("getSelections")[0]; //获取第一条数据信息
         			data.priceView = TAOTAO.formatPrice(data.price);
         			$("#itemeEditForm").form("load",data);
+
+        			// $.post('/rest/page/item-edit/'+data.id,function (result) {
+                    //     if (result.status == 200){
+                    //         $.messager.alert("获取商品信息");
+                    //     }
+                    // });
+        			$.ajax({
+                        type:"GET",
+                        url:"/rest/page/item-edit/",
+                        data:{id:data.id},
+                        dataType:"json",
+                        success:function (result) {
+                            if (result.status == 200){
+                                $.messager.alert("获取商品信息");
+                            }else {
+                                $.messager.alert("获取商品信息失败");
+                            }
+                        }
+                    })
         			
         			// 加载商品描述
-        			$.getJSON('/rest/item/query/item/desc/'+data.id,function(_data){
-        				if(_data.status == 200){
-        					//UM.getEditor('itemeEditDescEditor').setContent(_data.data.itemDesc, false);
-        					itemEditEditor.html(_data.data.itemDesc);
-        				}
-        			});
+                    // $.getJSON('/rest/item/query/item/desc/'+data.id,function(_data){
+                    //     if(_data.status == 200){
+                    //         //UM.getEditor('itemeEditDescEditor').setContent(_data.data.itemDesc, false);
+                    //         itemEditEditor.html(_data.data.itemDesc);
+                    //     }
+                    // });
         			
         			//加载商品规格
-        			$.getJSON('/rest/item/param/item/query/'+data.id,function(_data){
-        				if(_data && _data.status == 200 && _data.data && _data.data.paramData){
-        					$("#itemeEditForm .params").show();
-        					$("#itemeEditForm [name=itemParams]").val(_data.data.paramData);
-        					$("#itemeEditForm [name=itemParamId]").val(_data.data.id);
-        					
-        					//回显商品规格
-        					 var paramData = JSON.parse(_data.data.paramData);
-        					
-        					 var html = "<ul>";
-        					 for(var i in paramData){
-        						 var pd = paramData[i];
-        						 html+="<li><table>";
-        						 html+="<tr><td colspan=\"2\" class=\"group\">"+pd.group+"</td></tr>";
-        						 
-        						 for(var j in pd.params){
-        							 var ps = pd.params[j];
-        							 html+="<tr><td class=\"param\"><span>"+ps.k+"</span>: </td><td><input autocomplete=\"off\" type=\"text\" value='"+ps.v+"'/></td></tr>";
-        						 }
-        						 
-        						 html+="</li></table>";
-        					 }
-        					 html+= "</ul>";
-        					 $("#itemeEditForm .params td").eq(1).html(html);
-        				}
-        			});
+        			// $.getJSON('/rest/item/param/item/query/'+data.id,function(_data){
+        			// 	if(_data && _data.status == 200 && _data.data && _data.data.paramData){
+        			// 		$("#itemeEditForm .params").show();
+        			// 		$("#itemeEditForm [name=itemParams]").val(_data.data.paramData);
+        			// 		$("#itemeEditForm [name=itemParamId]").val(_data.data.id);
+        			//
+        			// 		//回显商品规格
+        			// 		 var paramData = JSON.parse(_data.data.paramData);
+        			//
+        			// 		 var html = "<ul>";
+        			// 		 for(var i in paramData){
+        			// 			 var pd = paramData[i];
+        			// 			 html+="<li><table>";
+        			// 			 html+="<tr><td colspan=\"2\" class=\"group\">"+pd.group+"</td></tr>";
+        			//
+        			// 			 for(var j in pd.params){
+        			// 				 var ps = pd.params[j];
+        			// 				 html+="<tr><td class=\"param\"><span>"+ps.k+"</span>: </td><td><input autocomplete=\"off\" type=\"text\" value='"+ps.v+"'/></td></tr>";
+        			// 			 }
+        			//
+        			// 			 html+="</li></table>";
+        			// 		 }
+        			// 		 html+= "</ul>";
+        			// 		 $("#itemeEditForm .params td").eq(1).html(html);
+        			// 	}
+        			// });
         			
-        			TAOTAO.init({
-        				"pics" : data.image,
-        				"cid" : data.cid,
-        				fun:function(node){
-        					TAOTAO.changeItemParam(node, "itemeEditForm");
-        				}
-        			});
+        			// TAOTAO.init({
+        			// 	"pics" : data.image,
+        			// 	"cid" : data.cid,
+        			// 	fun:function(node){
+        			// 		TAOTAO.changeItemParam(node, "itemeEditForm");
+        			// 	}
+        			// });
         		}
         	}).window("open");
         }

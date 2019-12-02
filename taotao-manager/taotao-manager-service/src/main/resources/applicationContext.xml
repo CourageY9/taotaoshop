@@ -87,6 +87,6 @@
         发送数据
      -->
     <dubbo:service interface="com.taotao.service.ItemService" ref="itemServiceImpl" />
-
-
+    <!-- 发送分类树形图信息 -->
+    <dubbo:service interface="com.taotao.service.ItemCatService" ref="itemCatServiceImpl"/>
 </beans>
