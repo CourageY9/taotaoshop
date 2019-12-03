@@ -4,13 +4,18 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.taotao.common.pojo.EasyUIResult;
 import com.taotao.common.pojo.TaotaoResult;
+import com.taotao.common.utils.IDUtils;
+import com.taotao.dao.TbItemDescMapper;
 import com.taotao.dao.TbItemMapper;
 import com.taotao.pojo.TbItem;
+import com.taotao.pojo.TbItemDesc;
 import com.taotao.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -24,6 +29,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private TbItemMapper tbItemMapper;
+
+    @Autowired
+    private TbItemDescMapper tbItemDescMapper;
 
     /**
      * <pre>
@@ -70,11 +78,50 @@ public class ItemServiceImpl implements ItemService {
       * @return com.taotao.common.pojo.TaotaoResult
      * </pre>
      */
-    public TaotaoResult deleteItems(Integer[] ids){
+    public TaotaoResult deleteItems(long[] ids){
         int result = tbItemMapper.deleteItems(ids);
         if (result != 0){
             return TaotaoResult.ok();
         }
         return null;
+    }
+
+
+    /**
+     * <pre>
+     * Description :  添加商品信息接口  <br/>
+     * ChangeLog : 1. 创建 (2019/12/3 11:57 [yangyi]);
+      * @param item 商品信息
+     * @param desc  商品描述信息
+      * @return com.taotao.common.pojo.TaotaoResult
+     * </pre>
+     */
+    public TaotaoResult addItem(TbItem item, String desc) {
+
+        long id = IDUtils.genItemId();  //自动生成ID
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time = dateFormat.format(date);
+
+        //添加商品信息表
+        item.setId(id);
+        item.setStatus((byte) 1);   //默认状态为1
+        item.setCreated(date);  //创建时间
+        item.setUpdated(date);  //修改时间
+        int itemNum = tbItemMapper.addItem(item);
+
+        //添加商品描述信息表
+        TbItemDesc tbItemDesc = new TbItemDesc();
+        tbItemDesc.setItemId(id);
+        tbItemDesc.setItemDesc(desc);   //商品描述信息
+        tbItemDesc.setCreated(date);
+        tbItemDesc.setUpdated(date);
+        int itemDescNum = tbItemDescMapper.addItemDesc(tbItemDesc);
+
+        if (itemNum==1 && itemDescNum==1){
+            return TaotaoResult.ok();
+        }
+
+        return TaotaoResult.build(500, "添加商品失败，请重新添加");
     }
 }

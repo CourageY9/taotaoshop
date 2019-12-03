@@ -63,7 +63,7 @@ public class ItemController {
      */
     @ResponseBody
     @RequestMapping("/rest/item/delete")
-    public TaotaoResult deleteItems(Integer[] ids){
+    public TaotaoResult deleteItems(long[] ids){
         TaotaoResult result = itemService.deleteItems(ids);
         return result;
     }
@@ -74,5 +74,12 @@ public class ItemController {
     public TaotaoResult findItemById(Integer id){
         System.out.println(id);
         return null;
+    }
+
+    @ResponseBody
+    @RequestMapping("/item/save")
+    public TaotaoResult addItem(TbItem item,String desc){
+        TaotaoResult result = itemService.addItem(item, desc);
+        return result;
     }
 }
