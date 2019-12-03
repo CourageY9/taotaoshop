@@ -68,6 +68,7 @@ public class ItemController {
         return result;
     }
     
+    //测试
     @ResponseBody
     @RequestMapping("/rest/page/item-edit")
     public TaotaoResult findItemById(Integer id){

@@ -86,7 +86,9 @@
         dubbo是以接口来通信的   interface=‘接口全名称’ ref=‘接口的实习类名’
         发送数据
      -->
-    <dubbo:service interface="com.taotao.service.ItemService" ref="itemServiceImpl" />
+    <dubbo:service interface="com.taotao.service.ItemService" ref="itemServiceImpl" timeout="30000"/>
     <!-- 发送分类树形图信息 -->
-    <dubbo:service interface="com.taotao.service.ItemCatService" ref="itemCatServiceImpl"/>
+    <dubbo:service interface="com.taotao.service.ItemCatService" ref="itemCatServiceImpl" timeout="30000"/>
+    <!-- 发送图片上传信息 -->
+    <dubbo:service interface="com.taotao.service.PictureService" ref="pictureServiceImpl" timeout="30000"/>
 </beans>
