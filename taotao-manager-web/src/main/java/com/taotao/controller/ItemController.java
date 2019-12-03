@@ -76,6 +76,15 @@ public class ItemController {
         return null;
     }
 
+    /**
+     * <pre>
+     * Description :  添加商品接口  <br/>
+     * ChangeLog : 1. 创建 (2019/12/3 14:49 [yangyi]);
+      * @param item     商品信息
+     * @param desc      商品描述信息
+      * @return com.taotao.common.pojo.TaotaoResult
+     * </pre>
+     */
     @ResponseBody
     @RequestMapping("/item/save")
     public TaotaoResult addItem(TbItem item,String desc){
