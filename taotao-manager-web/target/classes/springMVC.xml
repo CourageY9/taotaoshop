@@ -46,6 +46,8 @@
     <dubbo:reference interface="com.taotao.service.ItemService" id="itemService" timeout="30000"/>          <!-- 接收商品信息 -->
     <dubbo:reference interface="com.taotao.service.ItemCatService" id="itemCatService" timeout="30000"/>    <!-- 接收商品分类信息 -->
     <dubbo:reference interface="com.taotao.service.PictureService" id="pictureService" timeout="30000"/>    <!-- 接收图片上传信息 -->
-    <!-- 接收 -->
+    <!-- 接收 CMS-->
     <dubbo:reference interface="com.taotao.content.service.ContentCategoryService" id="contentCategoryServiceImpl" timeout="30000"/>
+    <dubbo:reference interface="com.taotao.content.service.ContentService" id="contentServiceImpl" timeout="30000"/>
+
 </beans>

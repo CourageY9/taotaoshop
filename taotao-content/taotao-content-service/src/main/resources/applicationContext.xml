@@ -80,7 +80,8 @@
     <dubbo:registry protocol="zookeeper" address="192.168.58.100:2181"/>
     <dubbo:protocol name="dubbo" port="20881"/> <!-- 设置端口号 -->
     <!-- 发送服务 -->
-    <dubbo:service interface="com.taotao.content.service.ContentCategoryService" ref="contentCategoryServiceImpl"/>
+    <dubbo:service interface="com.taotao.content.service.ContentCategoryService" ref="contentCategoryServiceImpl" />
+    <dubbo:service interface="com.taotao.content.service.ContentService" ref="contentServiceImpl" />
     <!--&lt;!&ndash; 使用dubbo发布服务 &ndash;&gt;-->
     <!--&lt;!&ndash; 提供方应用信息，用于计算依赖关系 &ndash;&gt;-->
     <!--<dubbo:application name="taotao-manager-service" />-->
