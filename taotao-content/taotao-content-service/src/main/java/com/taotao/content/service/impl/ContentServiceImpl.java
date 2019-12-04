@@ -73,4 +73,22 @@ public class ContentServiceImpl implements ContentService {
         }
         return TaotaoResult.build(500, "删除失败");
     }
+
+    /**
+     * <pre>
+     * Description : 修改Content对象  <br/>
+     * ChangeLog : 1. 创建 (2019/12/4 15:04 [yangyi]);
+      * @param tbContent
+      * @return com.taotao.common.pojo.TaotaoResult
+     * </pre>
+     */
+    public TaotaoResult updateContent(TbContent tbContent) {
+        Date date = new Date();
+        tbContent.setUpdated(date);
+        int num = tbContentMapper.updateContent(tbContent);
+        if (num == 1){
+            return TaotaoResult.ok();
+        }
+        return TaotaoResult.build(500, "修改失败");
+    }
 }

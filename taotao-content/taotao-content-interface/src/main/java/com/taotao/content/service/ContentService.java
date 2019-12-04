@@ -11,4 +11,6 @@ public interface ContentService {
     public TaotaoResult addContent(TbContent tbContent);    //添加Content
 
     public TaotaoResult deleteContent(long[] ids);      //删除content
+
+    public TaotaoResult updateContent(TbContent tbContent);     //根据ID修改content
 }

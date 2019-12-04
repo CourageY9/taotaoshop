@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Description:
  */
 @Controller
-@RequestMapping("/content/")
 public class ContentController {
 
     @Autowired
@@ -30,7 +29,7 @@ public class ContentController {
      * </pre>
      */
     @ResponseBody
-    @RequestMapping("query/list")
+    @RequestMapping("/content/query/list")
     public EasyUIResult getContent(long categoryId){
         try {
             EasyUIResult result = contentService.getContent(categoryId);
@@ -50,7 +49,7 @@ public class ContentController {
      * </pre>
      */
     @ResponseBody
-    @RequestMapping("save")
+    @RequestMapping("/content/save")
     public TaotaoResult addContent(TbContent tbContent){
         try {
             TaotaoResult result = contentService.addContent(tbContent);
@@ -70,7 +69,7 @@ public class ContentController {
      * </pre>
      */
     @ResponseBody
-    @RequestMapping("delete")
+    @RequestMapping("/content/delete")
     public TaotaoResult deleteContent(long[] ids){
         try {
             TaotaoResult result = contentService.deleteContent(ids);
@@ -83,15 +82,18 @@ public class ContentController {
 
     /**
      * <pre>
-     * Description :  暂时不做  <br/>
+     * Description :    <br/>
      * ChangeLog : 1. 创建 (2019/12/4 14:54 [yangyi]);
       * @param tbContent
       * @return com.taotao.common.pojo.TaotaoResult
      * </pre>
      */
+    @ResponseBody
+    @RequestMapping("/rest/content/edit")
     public TaotaoResult updateContent(TbContent tbContent){
         try {
-
+            TaotaoResult result = contentService.updateContent(tbContent);
+            return result;
         }catch (Exception e){
             e.printStackTrace();
         }
