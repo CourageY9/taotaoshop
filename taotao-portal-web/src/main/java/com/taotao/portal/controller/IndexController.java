@@ -48,10 +48,10 @@ public class IndexController {
      */
     @RequestMapping("/index")
     public String showIndex(Model model){
-        EasyUIResult easyUIResult = contentService.getContent(AD1_CID);     //查询大广告的内容信息
-        List<?> list = easyUIResult.getRows();
-        List<TbContent> listContent = new ArrayList<TbContent>();
-        listContent.addAll((Collection<? extends TbContent>) list);
+//        EasyUIResult easyUIResult = contentService.getContent(AD1_CID);     //查询大广告的内容信息
+//        List<?> list = easyUIResult.getRows();
+        List<TbContent> listContent = contentService.findContent(AD1_CID); //查询大广告的内容信息
+        //listContent.addAll((Collection<? extends TbContent>) list);
 
         //放回给前端页面的数据信息
         List<Ad1Node> resultList = new ArrayList<>();

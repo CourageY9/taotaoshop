@@ -4,6 +4,8 @@ import com.taotao.common.pojo.EasyUIResult;
 import com.taotao.common.pojo.TaotaoResult;
 import com.taotao.pojo.TbContent;
 
+import java.util.List;
+
 public interface ContentService {
 
     public EasyUIResult getContent(long categoryId);    //通过categoryId查询内容信息
@@ -13,4 +15,6 @@ public interface ContentService {
     public TaotaoResult deleteContent(long[] ids);      //删除content
 
     public TaotaoResult updateContent(TbContent tbContent);     //根据ID修改content
+
+    public List<TbContent> findContent(long categoryId);    //查询content信息
 }

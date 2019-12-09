@@ -43,7 +43,7 @@
     </bean>
     <!-- 扫描service包 -->
 
-    <context:component-scan base-package="com.taotao.content.service"/>
+    <context:component-scan base-package="com.taotao.content.service,com.taotao.content.jedis"/>
 
     <!-- 事务管理器 -->
     <bean id="transactionManager"
@@ -72,6 +72,13 @@
     <aop:config>
         <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.taotao.content.service.*.*(..))" />
     </aop:config>
+
+
+    <!-- redis 缓存连接池-->
+    <!--<bean id="jedisPool" class="redis.clients.jedis.JedisPool">-->
+        <!--<constructor-arg name="host" value="192.168.58.102"/>&lt;!&ndash; redis 服务器地址 &ndash;&gt;-->
+        <!--<constructor-arg name="port" value="6379"/>&lt;!&ndash; redis 端口号 &ndash;&gt;-->
+    <!--</bean>-->
     
     <!-- 配置dubbo
         向dubbo发送接口信息
