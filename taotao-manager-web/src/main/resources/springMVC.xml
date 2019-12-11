@@ -49,5 +49,7 @@
     <!-- 接收 CMS-->
     <dubbo:reference interface="com.taotao.content.service.ContentCategoryService" id="contentCategoryServiceImpl" timeout="30000"/>
     <dubbo:reference interface="com.taotao.content.service.ContentService" id="contentServiceImpl" timeout="30000"/>
+    <!-- 接收 solr -->
+    <dubbo:reference interface="com.taotao.search.service.SolrItemService" id="solrItemService" timeout="300000"/>
 
 </beans>

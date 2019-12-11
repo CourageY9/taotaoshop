@@ -1,6 +1,7 @@
 com\taotao\dao\TbItemDescMapper.class
 com\taotao\dao\TbOrderMapper.class
 com\taotao\dao\TbUserMapper.class
+com\taotao\dao\SearchMapper.class
 com\taotao\dao\TbItemMapper.class
 com\taotao\dao\TbItemParamItemMapper.class
 com\taotao\dao\TbOrderItemMapper.class

@@ -10,10 +10,10 @@ import redis.clients.jedis.JedisPool;
  * Date: 2019/12/5:9:16  <br/>
  * Description: jedisClient 实现类
  */
-@Component
+//@Component
 public class JedisClientPool implements JedisClient{
 
-    @Autowired
+    //@Autowired
     private JedisPool jedisPool;
 
     @Override

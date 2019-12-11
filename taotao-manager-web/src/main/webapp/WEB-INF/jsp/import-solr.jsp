@@ -14,7 +14,7 @@
             if (data.status==200) {
                 $.messager.alert('提示','商品数据导入成功！');
             } else {
-                $.messager.alert('提示','商品数据导入失败！');
+                $.messager.alert('提示',data.msg);
             }
         });
     }
