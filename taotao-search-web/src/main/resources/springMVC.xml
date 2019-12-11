@@ -31,6 +31,6 @@
     <!--  -->
     <dubbo:registry protocol="zookeeper" address="192.168.58.100:2181" />
     <!-- 接收数据 -->
-    <dubbo:reference interface="com.taotao.content.service.ContentService" id="contentService" timeout="30000"/> <!-- 接收轮播图信息 -->
+    <dubbo:reference interface="com.taotao.search.service.SolrItemService" id="solrItemService" timeout="30000"/> <!-- 接收solr信息 -->
 
 </beans>

@@ -1,4 +1,4 @@
-package com.taotao.pojo;
+package com.taotao.common.pojo;
 
 import java.io.Serializable;
 
@@ -71,5 +71,13 @@ public class SearchItem implements Serializable {
 
     public void setItemDesc(String itemDesc) {
         this.itemDesc = itemDesc;
+    }
+
+    public String[] getImages(){
+        if (image!=null && !"".equals(image)){
+            String[] imgs = image.split(",");
+            return imgs;
+        }
+        return null;
     }
 }

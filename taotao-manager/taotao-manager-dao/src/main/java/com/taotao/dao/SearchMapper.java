@@ -1,6 +1,6 @@
 package com.taotao.dao;
 
-import com.taotao.pojo.SearchItem;
+import com.taotao.common.pojo.SearchItem;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
