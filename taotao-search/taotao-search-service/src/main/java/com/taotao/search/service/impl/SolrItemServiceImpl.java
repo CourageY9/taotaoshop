@@ -107,4 +107,31 @@ public class SolrItemServiceImpl implements SolrItemService {
         result.setRecordCount(0);
         return null;
     }
+
+   /**
+    * <pre>
+    * Description :  向solr中添加商品信息  <br/>
+    * ChangeLog : 1. 创建 (2019/12/12 14:55 [yangyi]);
+     * @param searchItem
+     * @return void
+    * </pre>
+    */
+    public void addSolrItemDocument(List<SearchItem> searchItem) {
+        try {
+            for (SearchItem item : searchItem){
+                SolrInputDocument document = new SolrInputDocument();
+                document.addField("id", item.getId());  //商品ID
+                document.addField("item_title", item.getTitle());   //商品标题
+                document.addField("item_sell_point", item.getSellPoint());  //商品卖点
+                document.addField("item_price", item.getPrice());   //商品价格
+                document.addField("item_image", item.getImage());   //商品图片
+                document.addField("item_category_name", item.getCategoryName());    //商品分类
+                document.addField("item_desc", item.getItemDesc()); //商品描述
+                solrServer.add(document);
+            }
+            solrServer.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

@@ -82,6 +82,7 @@
             <artifactId>solr-solrj</artifactId>
         </dependency>
 
+        <!-- ActiveMQ jar包 -->
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-all</artifactId>

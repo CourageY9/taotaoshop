@@ -1,3 +1,5 @@
+com\taotao\service\impl\ItemServiceImpl$1.class
 com\taotao\service\impl\ItemServiceImpl.class
+com\taotao\service\impl\ActiveMQ.class
 com\taotao\service\impl\PictureServiceImpl.class
 com\taotao\service\impl\ItemCatServiceImpl.class

@@ -11,9 +11,11 @@ import com.taotao.pojo.TbItem;
 import com.taotao.pojo.TbItemDesc;
 import com.taotao.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import javax.jms.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +34,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private TbItemDescMapper tbItemDescMapper;
+
+    @Autowired
+    private JmsTemplate jmsTemplate;    //spring管理的ActiveMQ的连接
+
+    @Autowired
+    private Topic topicDestination;     //订阅与发布模式（发布者）
 
     /**
      * <pre>
@@ -98,7 +106,7 @@ public class ItemServiceImpl implements ItemService {
      */
     public TaotaoResult addItem(TbItem item, String desc) {
 
-        long id = IDUtils.genItemId();  //自动生成ID
+        final long id = IDUtils.genItemId();  //自动生成ID
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = dateFormat.format(date);
@@ -119,6 +127,13 @@ public class ItemServiceImpl implements ItemService {
         int itemDescNum = tbItemDescMapper.addItemDesc(tbItemDesc);
 
         if (itemNum==1 && itemDescNum==1){
+            jmsTemplate.send(topicDestination, new MessageCreator() {
+                @Override
+                public Message createMessage(Session session) throws JMSException {
+                    TextMessage message = session.createTextMessage(String.valueOf(id));
+                    return message;
+                }
+            });
             return TaotaoResult.ok();
         }
 
