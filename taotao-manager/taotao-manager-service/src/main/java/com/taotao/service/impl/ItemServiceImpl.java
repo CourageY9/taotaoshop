@@ -127,6 +127,7 @@ public class ItemServiceImpl implements ItemService {
         int itemDescNum = tbItemDescMapper.addItemDesc(tbItemDesc);
 
         if (itemNum==1 && itemDescNum==1){
+            //ActiveMQ中发送商品id
             jmsTemplate.send(topicDestination, new MessageCreator() {
                 @Override
                 public Message createMessage(Session session) throws JMSException {
@@ -138,5 +139,19 @@ public class ItemServiceImpl implements ItemService {
         }
 
         return TaotaoResult.build(500, "添加商品失败，请重新添加");
+    }
+
+
+    /**
+     * <pre>
+     * Description :  根据商品id查询商品描述信息  <br/>
+     * ChangeLog : 1. 创建 (2019/12/12 17:37 [yangyi]);
+      * @param itemId
+      * @return com.taotao.pojo.TbItemDesc
+     * </pre>
+     */
+    public TbItemDesc findItemdescById(long itemId) {
+        TbItemDesc itemDesc = tbItemDescMapper.fingTbitemdescbyId(itemId);
+        return itemDesc;
     }
 }
