@@ -54,5 +54,6 @@
     <dubbo:registry protocol="zookeeper" address="192.168.58.100:2181" />
     <!-- 接收数据 -->
     <dubbo:reference interface="com.taotao.service.ItemService" id="itemService" timeout="30000"/> <!-- 接收solr信息 -->
-
+    <!-- 接收商品规格参数 -->
+    <dubbo:reference interface="com.taotao.service.ItemParamServer" id="itemParamServer" timeout="30000"/>
 </beans>

@@ -3,6 +3,7 @@ package com.taotao.item.controller;
 import com.taotao.item.pojo.Item;
 import com.taotao.pojo.TbItem;
 import com.taotao.pojo.TbItemDesc;
+import com.taotao.service.ItemParamServer;
 import com.taotao.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,9 @@ public class ItemController {
 
     @Autowired
     private ItemService itemService;
+
+    @Autowired
+    private ItemParamServer itemParamServer;
 
 
     /**
@@ -55,5 +59,25 @@ public class ItemController {
     public String getItemDesc(@PathVariable long itemId,Model model){
         TbItemDesc itemDesc = itemService.findItemdescById(itemId);
         return itemDesc.getItemDesc();
+    }
+
+    /**
+     * <pre>
+     * Description :  根据商品ID查询商品规格参数  <br/>
+     * ChangeLog : 1. 创建 (2019/12/13 16:09 [yangyi]);
+     * @param itemId
+     * @return java.lang.String
+     * </pre>
+     */
+    @ResponseBody
+    @RequestMapping("param/{itemId}")
+    public String getItemParams(@PathVariable long itemId){
+        try {
+            String result = itemParamServer.getItemPatamItemById(itemId);
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "";
     }
 }

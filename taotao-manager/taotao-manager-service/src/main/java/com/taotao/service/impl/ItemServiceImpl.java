@@ -5,12 +5,18 @@ import com.github.pagehelper.PageInfo;
 import com.taotao.common.pojo.EasyUIResult;
 import com.taotao.common.pojo.TaotaoResult;
 import com.taotao.common.utils.IDUtils;
+import com.taotao.common.utils.JedisUtils;
+import com.taotao.common.utils.JsonUtils;
 import com.taotao.dao.TbItemDescMapper;
 import com.taotao.dao.TbItemMapper;
+import com.taotao.dao.TbItemParamItemMapper;
 import com.taotao.pojo.TbItem;
 import com.taotao.pojo.TbItemDesc;
+import com.taotao.pojo.TbItemParamItem;
 import com.taotao.service.ItemService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
@@ -36,10 +42,19 @@ public class ItemServiceImpl implements ItemService {
     private TbItemDescMapper tbItemDescMapper;
 
     @Autowired
+    private TbItemParamItemMapper tbItemParamItemMapper;    //商品规格参数详细表Dao
+
+    @Autowired
     private JmsTemplate jmsTemplate;    //spring管理的ActiveMQ的连接
 
     @Autowired
     private Topic topicDestination;     //订阅与发布模式（发布者）
+
+    @Value("${ITEM_INFO}")
+    private String ITEM_INFO;   //商品信息描述
+
+    @Value("${ITEM_OUT_TIME}")
+    private Integer ITEM_OUT_TIME;  //商品过期时间（1天）
 
     /**
      * <pre>
@@ -50,7 +65,20 @@ public class ItemServiceImpl implements ItemService {
      * </pre>
      */
     public TbItem getItemById(long itemId) {
-        return tbItemMapper.findItemById(itemId);
+        try {
+            String json = JedisUtils.get(ITEM_INFO+":"+itemId+":BASE");
+            if (StringUtils.isNotBlank(json)){
+                TbItem item = JsonUtils.jsonToPojo(json, TbItem.class);
+                JedisUtils.expire(ITEM_INFO+":"+itemId+":BASE",ITEM_OUT_TIME);  //重新设置过期时间
+                return item;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        TbItem tbItem = tbItemMapper.findItemById(itemId);
+        JedisUtils.set(ITEM_INFO+":"+itemId+":BASE", JsonUtils.objectToJson(tbItem));   //存redis缓存
+        JedisUtils.expire(ITEM_INFO+":"+itemId+":BASE",ITEM_OUT_TIME);  //设置过期时间
+        return tbItem;
     }
 
     /**
@@ -104,7 +132,7 @@ public class ItemServiceImpl implements ItemService {
       * @return com.taotao.common.pojo.TaotaoResult
      * </pre>
      */
-    public TaotaoResult addItem(TbItem item, String desc) {
+    public TaotaoResult addItem(TbItem item, String desc,String itemParams) {
 
         final long id = IDUtils.genItemId();  //自动生成ID
         Date date = new Date();
@@ -126,7 +154,15 @@ public class ItemServiceImpl implements ItemService {
         tbItemDesc.setUpdated(date);
         int itemDescNum = tbItemDescMapper.addItemDesc(tbItemDesc);
 
-        if (itemNum==1 && itemDescNum==1){
+        //添加商品规格参数信息表
+        TbItemParamItem itemParamItem = new TbItemParamItem();
+        itemParamItem.setItemId(id);
+        itemParamItem.setParamData(itemParams);
+        itemParamItem.setCreated(date);
+        itemParamItem.setUpdated(date);
+        int itemParamNum = tbItemParamItemMapper.addItemParamItem(itemParamItem);
+
+        if (itemNum==1 && itemDescNum==1 && itemParamNum==1){
             //ActiveMQ中发送商品id
             jmsTemplate.send(topicDestination, new MessageCreator() {
                 @Override
@@ -151,7 +187,20 @@ public class ItemServiceImpl implements ItemService {
      * </pre>
      */
     public TbItemDesc findItemdescById(long itemId) {
+        String redisKey = ITEM_INFO+":"+itemId+":describe";
+        try {
+            String record = JedisUtils.get(redisKey);   //describe描述
+            if (StringUtils.isNotBlank(record)){
+                TbItemDesc itemDesc = JsonUtils.jsonToPojo(record, TbItemDesc.class);
+                JedisUtils.expire(redisKey,ITEM_OUT_TIME);
+                return itemDesc;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         TbItemDesc itemDesc = tbItemDescMapper.fingTbitemdescbyId(itemId);
+        JedisUtils.set(redisKey,JsonUtils.objectToJson(itemDesc));
+        JedisUtils.expire(redisKey,ITEM_OUT_TIME);
         return itemDesc;
     }
 }

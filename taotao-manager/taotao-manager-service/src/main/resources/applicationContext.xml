@@ -91,6 +91,8 @@
     <dubbo:service interface="com.taotao.service.ItemCatService" ref="itemCatServiceImpl" timeout="30000"/>
     <!-- 发送图片上传信息 -->
     <dubbo:service interface="com.taotao.service.PictureService" ref="pictureServiceImpl" timeout="30000"/>
+    <!-- 发送商品规格模板信息 -->
+    <dubbo:service interface="com.taotao.service.ItemParamServer" ref="itemParamServerImpl" timeout="30000"/>
     
     <!-- 配置ActiveMQ 发送消息 -->
     <!-- 创建ActiveMQ的连接 -->

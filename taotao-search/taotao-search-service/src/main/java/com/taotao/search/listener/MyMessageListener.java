@@ -28,7 +28,7 @@ public class MyMessageListener implements MessageListener {
             TextMessage resultText = (TextMessage) message; //Message 订阅的消息(因为发送的是TextMessage类型数据，强转)
             String text = resultText.getText();
             List<SearchItem> item = searchMapper.getItem(Long.valueOf(text));
-            solrItemService.addSolrItemDocument(item);
+            solrItemService.addSolrItemDocument(item);  //向solr中添加商品信息
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -87,8 +87,13 @@ public class ItemController {
      */
     @ResponseBody
     @RequestMapping("/item/save")
-    public TaotaoResult addItem(TbItem item,String desc){
-        TaotaoResult result = itemService.addItem(item, desc);
-        return result;
+    public TaotaoResult addItem(TbItem item,String desc,String itemParams){
+        try {
+            TaotaoResult result = itemService.addItem(item, desc,itemParams);
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return TaotaoResult.build(500, "系统错误");
     }
 }
